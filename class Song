@@ -1,0 +1,72 @@
+public class Song
+{
+
+    private String title;
+    private String artist;
+    private int length;
+
+    public Song(String title, String artist, int length)
+    {
+        this.title = title;
+        this.artist = artist;
+        this.length = length;
+    }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getArtist() { return artist; }
+    public void setArtist(String artist) { this.artist = artist; }
+
+    public int getLength() { return length; }
+    public void setLength(int length) { this.length = length; }
+}
+internal class ProgramSongTest
+{
+    public static Node<Song> BiggerLength(Node<Song> lst, int minSeconds)
+    {
+        Node<Song> current = lst;
+        Node<Song> listToReturn = new Node<Song>(null);
+        Node<Song> currentLtr = listToReturn;
+
+        while (current != null)
+        {
+            if (current.GetValue().getLength() > minSeconds)
+            {
+                currentLtr.SetNext(new Node<Song>(current.GetValue()));
+                currentLtr = currentLtr.GetNext();
+            }
+            current = current.GetNext();
+        }
+        return listToReturn.GetNext();
+    }
+    public static Node<Song> DiscoveryList(Node<Song> lst)
+    {
+        if (lst == null)
+            return null;
+
+        Node<Song> current = lst;
+
+        Node<Song> listToReturn = new Node<Song>(null);
+        Node<Song> currentLtr = listToReturn;
+
+        string lastArtist = "";
+
+        while (current != null)
+        {
+            string currentArtist = current.GetValue().getArtist();
+
+            if (currentArtist != lastArtist)
+            {
+                currentLtr.SetNext(new Node<Song>(current.GetValue()));
+                currentLtr = currentLtr.GetNext();
+                lastArtist = currentArtist;
+            }
+
+            current = current.GetNext();
+        }
+
+        return listToReturn.GetNext();
+    }
+}
+
