@@ -1,0 +1,89 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+
+public class Parcel
+{
+    private string trackingID;
+    private double weight;
+    private int zoneCode; // 1–50
+    private bool isUrgent;
+    public Parcel(string trackingID, double weight, int zoneCode, bool isUrgent)
+    {
+        this.trackingID = trackingID;
+        this.weight = weight;
+        this.zoneCode = zoneCode;
+        this.isUrgent = isUrgent;
+    }
+    public string TrackingID
+    {
+        get { return trackingID; }
+        set { trackingID = value; }
+    }
+    public double Weight
+    {
+        get { return weight; }
+        set { weight = value; }
+    }
+    public int ZoneCode
+    {
+        get { return zoneCode; }
+        set { zoneCode = value; }
+    }
+    public bool IsUrgent
+    {
+        get { return isUrgent; }
+        set { isUrgent = value; }
+    }
+}
+
+internal class ProgramParcel
+{
+    public static int MostUrgentZone(Node<Parcel> list)
+    {
+        // מערך מונים לאזורים 1–50
+        int[] arr = new int[51];
+
+        // בדיקת קצה (למרות שהשאלה אומרת שהרשימה לא ריקה)
+        if (list == null)
+            return 0;
+
+        // מצביע עזר
+        Node<Parcel> current = list;
+
+        // מעבר על הרשימה
+        while (current != null)
+        {
+            Parcel p = current.GetValue();
+
+            // אם החבילה דחופה – סופרים לפי אזור
+            if (p.IsUrgent)
+            {
+                int zone = p.ZoneCode;
+                arr[zone]++;
+            }
+
+            current = current.GetNext();
+        }
+
+        // מציאת האזור עם הכמות הגדולה ביותר
+        int maxZone = 1;
+        int maxUrgent = arr[1];
+
+        for (int i = 2; i <= 50; i++)
+        {
+            if (arr[i] > maxUrgent)
+            {
+                maxUrgent = arr[i];
+                maxZone = i;
+            }
+        }
+
+        return maxZone;
+    }
+}
+
+
