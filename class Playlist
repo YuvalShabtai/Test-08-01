@@ -1,0 +1,66 @@
+
+public class Playlist
+{
+    private string title;
+    private string artist;
+    private int duration;
+    private bool isFavorite;
+
+    public string Title
+    {
+        get { return title; }
+        set { title = value; }
+    }
+
+    public string Artist
+    {
+        get { return artist; }
+        set { artist = value; }
+    }
+
+    public int Duration
+    {
+        get { return duration; }
+        set { duration = value; }
+    }
+
+    public bool IsFavorite
+    {
+        get { return isFavorite; }
+        set { isFavorite = value; }
+    }
+}
+internal class ProgramSong
+{
+    public static Node<Playlist> OrganizePlaylist(Node<Playlist> list)
+    {
+        Node<Playlist> current = list;
+
+        Node<Playlist> listToReturn = new Node<Playlist>(null);
+        Node<Playlist> currentLtr = listToReturn;
+
+        while (current != null)
+        {
+            Playlist s = current.GetValue();
+            if(s.IsFavorite)
+            {
+                currentLtr.SetNext(new Node<Playlist>(s));
+                currentLtr = currentLtr.GetNext();
+            }
+            current = current.GetNext();
+        }
+
+        current = list; 
+        while (current != null)
+        {
+            Playlist s = current.GetValue();
+            if (!s.IsFavorite)
+            {
+                currentLtr.SetNext(new Node<Playlist>(s));
+                currentLtr = currentLtr.GetNext();
+            }
+        }
+        return listToReturn.GetNext();
+    }
+}
+
