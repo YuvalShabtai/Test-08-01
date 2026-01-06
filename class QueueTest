@@ -1,0 +1,43 @@
+class QueueTest public static Queue<T> CopyQueue<T>(Queue<T> q)
+ {
+     Queue<T> copy = new Queue<T>();
+     Queue<T> temp = new Queue<T>();
+
+     // ריקון זמני של התור המקורי
+     while (!q.IsEmpty())
+     {
+         T x = q.Remove();
+         copy.Insert(x); // נכנס להעתק
+         temp.Insert(x); // נשמר לשחזור
+     }
+
+     // שחזור התור המקורי
+     while (!temp.IsEmpty())
+     {
+         q.Insert(temp.Remove());
+     }
+
+     return copy;
+ }
+ public static int CountSum(Queue<int> q)
+ {
+     int counter = 0; 
+     Queue<int> copy = CopyQueue(q);
+   
+     while(!copy.IsEmpty())
+     {
+         int num = copy.Remove();
+         int sum = 0; 
+         while(num > 0)
+         {
+             sum += num % 10;
+             num /= 10;
+         }
+         if(sum %3 == 0)
+         {
+             counter ++; 
+         }
+     }
+     return counter; 
+
+ }
