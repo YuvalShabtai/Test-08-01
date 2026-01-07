@@ -1,0 +1,31 @@
+        public static Node<int> BuildListFromNumber(int number)
+        {
+            // אם המספר הוא 0 – אין ספרות, לכן מחזירים רשימה ריקה
+            if (number == 0)
+                return null;
+
+            // יצירת צומת דמה (dummy node)
+            Node<int> dummy = new Node<int>(0);
+
+            // מצביע לצומת הדמה
+            Node<int> current = dummy;
+
+            // לולאה שעוברת על כל ספרות המספר
+            while (number > 0)
+            {
+                // חילוץ הספרה האחרונה של המספר
+                int digit = number % 10;
+
+                // יצירת צומת חדש עם הספרה והוספתו לסוף הרשימה
+                current.SetNext(new Node<int>(digit));
+
+                // הזזת המצביע current לצומת החדש שנוסף
+                current = current.GetNext();
+
+                // הסרת הספרה האחרונה מהמספר
+                number /= 10;
+            }
+
+            // החזרת ראש הרשימה האמיתית (אחרי צומת הדמה)
+            return dummy.GetNext();
+        }
