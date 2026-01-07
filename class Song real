@@ -1,0 +1,93 @@
+public class Song
+{
+    private String title;
+    private String artist;
+    private int length;
+
+    public Song(String title, String artist, int length)
+    {
+        this.title = title;
+        this.artist = artist;
+        this.length = length;
+    }
+
+    public String GetTitle() { return title; }
+    public void SetTitle(String title) { this.title = title; }
+
+    public String GetArtist() { return artist; }
+    public void SetArtist(String artist) { this.artist = artist; }
+
+    public int GetLength() { return length; }
+    public void SetLength(int length) { this.length = length; }
+}
+internal class ProgramSongTest
+{
+    public static Node<Song> BiggerLength(Node<Song> lst, int minSeconds)
+    {
+        // מצביע שעובר על הרשימה המקורית
+        Node<Song> current = lst;
+
+        // מצביע לרשימה חדשה 
+        Node<Song> listToReturn = new Node<Song>(null);
+        Node<Song> currentLtr = listToReturn;
+
+        while (current != null)
+        {
+            // בדיקה אם אורך השיר גדול מהערך שנשלח לפעולה
+            if (current.GetValue().GetLength() > minSeconds)
+            {
+                // הוספת השיר לרשימה החדשה
+                currentLtr.SetNext(new Node<Song>(current.GetValue()));
+
+                // קידום המצביע לזנב הרשימה החדשה
+                currentLtr = currentLtr.GetNext();
+            }
+
+            // מעבר לצומת הבא ברשימה המקורית
+            current = current.GetNext();
+        }
+
+        // החזרת הרשימה החדשה ללא צומת הדמה
+        return listToReturn.GetNext();
+    }
+    public static Node<Song> DiscoveryList(Node<Song> lst)
+    {
+        if (lst == null)
+            return null;
+
+        // מצביע שעובר על הרשימה המקורית
+        Node<Song> current = lst;
+
+        // מצביע לרשימה חדשה  
+        Node<Song> listToReturn = new Node<Song>(null);
+        Node<Song> currentLtr = listToReturn;
+
+        // משתנה ששומר את שם האמן האחרון שנוסף לרשימה
+        string lastArtist = "";
+
+        while (current != null)
+        {
+            // קבלת שם האמן של השיר הנוכחי
+            string currentArtist = current.GetValue().GetArtist();
+
+            // אם האמן הנוכחי שונה מהאמן הקודם
+            if (currentArtist != lastArtist)
+            {
+                // הוספת השיר לרשימה החדשה
+                currentLtr.SetNext(new Node<Song>(current.GetValue()));
+
+                // קידום המצביע לזנב הרשימה החדשה
+                currentLtr = currentLtr.GetNext();
+
+                // עדכון האמן האחרון שנוסף
+                lastArtist = currentArtist;
+            }
+
+            // מעבר לצומת הבא ברשימה המקורית
+            current = current.GetNext();
+        }
+
+        // החזרת הרשימה החדשה ללא צומת הדמה
+        return listToReturn.GetNext();
+    }
+}
