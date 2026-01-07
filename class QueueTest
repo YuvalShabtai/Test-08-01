@@ -1,43 +1,54 @@
-class QueueTest public static Queue<T> CopyQueue<T>(Queue<T> q)
- {
-     Queue<T> copy = new Queue<T>();
-     Queue<T> temp = new Queue<T>();
+public static Queue<T> CopyQueue<T>(Queue<T> q)
+{
+    Queue<T> copy = new Queue<T>();
+    Queue<T> temp = new Queue<T>();
 
-     // ריקון זמני של התור המקורי
-     while (!q.IsEmpty())
-     {
-         T x = q.Remove();
-         copy.Insert(x); // נכנס להעתק
-         temp.Insert(x); // נשמר לשחזור
-     }
+    // ריקון זמני של התור המקורי
+    while (!q.IsEmpty())
+    {
+        T x = q.Remove();
+        copy.Insert(x); // נכנס להעתק
+        temp.Insert(x); // נשמר לשחזור
+    }
 
-     // שחזור התור המקורי
-     while (!temp.IsEmpty())
-     {
-         q.Insert(temp.Remove());
-     }
+    // שחזור התור המקורי
+    while (!temp.IsEmpty())
+    {
+        q.Insert(temp.Remove());
+    }
 
-     return copy;
- }
- public static int CountSum(Queue<int> q)
- {
-     int counter = 0; 
-     Queue<int> copy = CopyQueue(q);
-   
-     while(!copy.IsEmpty())
-     {
-         int num = copy.Remove();
-         int sum = 0; 
-         while(num > 0)
-         {
-             sum += num % 10;
-             num /= 10;
-         }
-         if(sum %3 == 0)
-         {
-             counter ++; 
-         }
-     }
-     return counter; 
+    return copy;
+}
+public static int CountSum(Queue<int> q)
+{
+    int counter = 0;
 
- }
+    // יצירת העתק של התור כדי לא לפגוע בתור המקורי
+    Queue<int> copy = CopyQueue(q);
+
+    // מעבר על כל האיברים בתור המועתק
+    while (!copy.IsEmpty())
+    {
+        // הוצאת מספר מראש התור
+        int num = copy.Remove();
+
+        // משתנה לחישוב סכום הספרות של המספר
+        int sum = 0;
+
+        // חישוב סכום הספרות של המספר
+        while (num > 0)
+        {
+            sum += num % 10;  // הוספת הספרה האחרונה לסכום
+            num /= 10;        // הסרת הספרה האחרונה מהמספר
+        }
+
+        // בדיקה אם סכום הספרות מתחלק ב-3 ללא שארית
+        if (sum % 3 == 0)
+        {
+            counter++;        // הגדלת המונה אם התנאי מתקיים
+        }
+    }
+
+    // החזרת כמות המספרים שעומדים בתנאי
+    return counter;
+}
