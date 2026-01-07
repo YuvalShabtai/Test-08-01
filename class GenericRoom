@@ -9,10 +9,20 @@ class GenericRoom
         this.seaView = seaView;
     }
 
+    // פעולה מוגנת שמיישמת את תוספת העונה העמוסה
+    // משותפת לכל סוגי החדרים
+    protected double ApplyBusySeason(bool isBusy, double price)
+    {
+        if (isBusy)
+            price *= 1.25;
+
+        return price;
+    }
+
     // פעולה וירטואלית לחישוב מחיר לילה
     public virtual double NightPrice(bool isBusy)
     {
-        return 0;
+        return ApplyBusySeason(isBusy, 0);
     }
 }
 
@@ -25,11 +35,7 @@ class StandardRoom : GenericRoom
     public override double NightPrice(bool isBusy)
     {
         double price = 300;
-
-        if (isBusy)
-            price *= 1.25;
-
-        return price;
+        return ApplyBusySeason(isBusy, price);
     }
 }
 
@@ -45,11 +51,7 @@ class DeluxeRoom : GenericRoom
     public override double NightPrice(bool isBusy)
     {
         double price = 450 + extraBeds * 50;
-
-        if (isBusy)
-            price *= 1.25;
-
-        return price;
+        return ApplyBusySeason(isBusy, price);
     }
 }
 
@@ -71,10 +73,7 @@ class Suite : GenericRoom
         if (jacuzzi)
             price += 200;
 
-        if (isBusy)
-            price *= 1.25;
-
-        return price;
+        return ApplyBusySeason(isBusy, price);
     }
 }
 
@@ -91,5 +90,3 @@ class Program
 
         return sum;
     }
-}
-
