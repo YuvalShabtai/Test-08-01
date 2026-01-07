@@ -1,3 +1,10 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Remoting.Messaging;
+using System.Text;
+using System.Threading.Tasks;
+
 public class Song
 {
 
@@ -12,32 +19,43 @@ public class Song
         this.length = length;
     }
 
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public String GetTitle() { return title; }
+    public void SetTitle(String title) { this.title = title; }
 
-    public String getArtist() { return artist; }
-    public void setArtist(String artist) { this.artist = artist; }
+    public String GetArtist() { return artist; }
+    public void SetArtist(String artist) { this.artist = artist; }
 
-    public int getLength() { return length; }
-    public void setLength(int length) { this.length = length; }
+    public int GetLength() { return length; }
+    public void SetLength(int length) { this.length = length; }
 }
 internal class ProgramSongTest
 {
     public static Node<Song> BiggerLength(Node<Song> lst, int minSeconds)
     {
+        // מצביע שעובר על הרשימה המקורית
         Node<Song> current = lst;
+
+        // מצביע לרשימה חדשה 
         Node<Song> listToReturn = new Node<Song>(null);
         Node<Song> currentLtr = listToReturn;
 
         while (current != null)
         {
-            if (current.GetValue().getLength() > minSeconds)
+            // בדיקה אם אורך השיר גדול מהערך שנשלח לפעולה
+            if (current.GetValue().GetLength() > minSeconds)
             {
+                // הוספת השיר לרשימה החדשה
                 currentLtr.SetNext(new Node<Song>(current.GetValue()));
+
+                // קידום המצביע לזנב הרשימה החדשה
                 currentLtr = currentLtr.GetNext();
             }
+
+            // מעבר לצומת הבא ברשימה המקורית
             current = current.GetNext();
         }
+
+        // החזרת הרשימה החדשה ללא צומת הדמה
         return listToReturn.GetNext();
     }
     public static Node<Song> DiscoveryList(Node<Song> lst)
@@ -45,27 +63,39 @@ internal class ProgramSongTest
         if (lst == null)
             return null;
 
+        // מצביע שעובר על הרשימה המקורית
         Node<Song> current = lst;
 
+        // מצביע לרשימה חדשה  
         Node<Song> listToReturn = new Node<Song>(null);
         Node<Song> currentLtr = listToReturn;
 
+        // משתנה ששומר את שם האמן האחרון שנוסף לרשימה
         string lastArtist = "";
 
         while (current != null)
         {
-            string currentArtist = current.GetValue().getArtist();
+            // קבלת שם האמן של השיר הנוכחי
+            string currentArtist = current.GetValue().GetArtist();
 
+            // אם האמן הנוכחי שונה מהאמן הקודם
             if (currentArtist != lastArtist)
             {
+                // הוספת השיר לרשימה החדשה
                 currentLtr.SetNext(new Node<Song>(current.GetValue()));
+
+                // קידום המצביע לזנב הרשימה החדשה
                 currentLtr = currentLtr.GetNext();
+
+                // עדכון האמן האחרון שנוסף
                 lastArtist = currentArtist;
             }
 
+            // מעבר לצומת הבא ברשימה המקורית
             current = current.GetNext();
         }
 
+        // החזרת הרשימה החדשה ללא צומת הדמה
         return listToReturn.GetNext();
     }
 }
