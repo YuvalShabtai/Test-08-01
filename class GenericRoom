@@ -1,0 +1,95 @@
+class GenericRoom
+{
+    protected int id;
+    protected bool seaView;
+
+    public GenericRoom(int id, bool seaView)
+    {
+        this.id = id;
+        this.seaView = seaView;
+    }
+
+    // פעולה וירטואלית לחישוב מחיר לילה
+    public virtual double NightPrice(bool isBusy)
+    {
+        return 0;
+    }
+}
+
+class StandardRoom : GenericRoom
+{
+    public StandardRoom(int id, bool seaView) : base(id, seaView)
+    {
+    }
+
+    public override double NightPrice(bool isBusy)
+    {
+        double price = 300;
+
+        if (isBusy)
+            price *= 1.25;
+
+        return price;
+    }
+}
+
+class DeluxeRoom : GenericRoom
+{
+    private int extraBeds;
+
+    public DeluxeRoom(int id, bool seaView, int extraBeds) : base(id, seaView)
+    {
+        this.extraBeds = extraBeds;
+    }
+
+    public override double NightPrice(bool isBusy)
+    {
+        double price = 450 + extraBeds * 50;
+
+        if (isBusy)
+            price *= 1.25;
+
+        return price;
+    }
+}
+
+class Suite : GenericRoom
+{
+    private int extraBeds;
+    private bool jacuzzi;
+
+    public Suite(int id, bool seaView, int extraBeds, bool jacuzzi) : base(id, seaView)
+    {
+        this.extraBeds = extraBeds;
+        this.jacuzzi = jacuzzi;
+    }
+
+    public override double NightPrice(bool isBusy)
+    {
+        double price = 700 + extraBeds * 50;
+
+        if (jacuzzi)
+            price += 200;
+
+        if (isBusy)
+            price *= 1.25;
+
+        return price;
+    }
+}
+
+class Program
+{
+    public static double Total(GenericRoom[] arr, bool isBusy)
+    {
+        double sum = 0;
+
+        for (int i = 0; i < arr.Length; i++)
+        {
+            sum += arr[i].NightPrice(isBusy);
+        }
+
+        return sum;
+    }
+}
+
